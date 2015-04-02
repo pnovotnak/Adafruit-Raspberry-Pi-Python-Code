@@ -1,10 +1,25 @@
 #!/usr/bin/python
 import re
-import smbus
+
+# On Edison, we're looking for mraa
+try:
+  import mraa
+  PLATFORM = 'EDISON'
+except ImportError:
+  import smbus
 
 # ===========================================================================
 # Adafruit_I2C Class
 # ===========================================================================
+
+
+class Bus(object):
+
+  write_byte():
+
+
+  read_byte():
+
 
 class Adafruit_I2C(object):
 

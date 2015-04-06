@@ -31,31 +31,31 @@ VCNL4000_AMBIENTREADY = 0x40
 VCNL4000_PROXIMITYREADY = 0x20
 
 class VCNL4000 :
-  i2c = None
+    i2c = None
 
-  # Constructor
-  def __init__(self, address=0x13):
-    self.i2c = Adafruit_I2C(address)
+    # Constructor
+    def __init__(self, address=0x13):
+        self.i2c = Adafruit_I2C(address)
 
-    self.address = address
+        self.address = address
 
-    # Write proximity adjustement register
-    self.i2c.write8(VCNL4000_PROXINITYADJUST, 0x81);
+        # Write proximity adjustement register
+        self.i2c.write8(VCNL4000_PROXINITYADJUST, 0x81);
 
-  # Read data from proximity sensor
-  def read_proximity(self):
-    self.i2c.write8(VCNL4000_COMMAND, VCNL4000_MEASUREPROXIMITY)
-    while True:
-      result = self.i2c.readU8(VCNL4000_COMMAND)
-      if (result and VCNL4000_PROXIMITYREADY):
-        return self.i2c.readU16(VCNL4000_PROXIMITYDATA)
-      time.sleep(0.001)
+    # Read data from proximity sensor
+    def read_proximity(self):
+        self.i2c.write8(VCNL4000_COMMAND, VCNL4000_MEASUREPROXIMITY)
+        while True:
+            result = self.i2c.readU8(VCNL4000_COMMAND)
+            if (result and VCNL4000_PROXIMITYREADY):
+                return self.i2c.readU16(VCNL4000_PROXIMITYDATA)
+            time.sleep(0.001)
 
-  # Read data from ambient sensor  
-  def read_ambient(self):
-    self.i2c.write8(VCNL4000_COMMAND, VCNL4000_MEASUREAMBIENT)
-    while True:
-      result = self.i2c.readU8(VCNL4000_COMMAND)
-      if (result and VCNL4000_AMBIENTREADY):
-        return self.i2c.readU16(VCNL4000_AMBIENTDATA)
-      time.sleep(0.001)
+    # Read data from ambient sensor  
+    def read_ambient(self):
+        self.i2c.write8(VCNL4000_COMMAND, VCNL4000_MEASUREAMBIENT)
+        while True:
+            result = self.i2c.readU8(VCNL4000_COMMAND)
+            if (result and VCNL4000_AMBIENTREADY):
+                return self.i2c.readU16(VCNL4000_AMBIENTDATA)
+            time.sleep(0.001)

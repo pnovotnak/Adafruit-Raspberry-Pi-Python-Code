@@ -31,39 +31,39 @@ bmp = BMP085(0x77)
 
 # Login with your Google account
 try:
-  gc = gspread.login(email, password)
+    gc = gspread.login(email, password)
 except:
-  print "Unable to log in.  Check your email address/password"
-  sys.exit()
+    print "Unable to log in.  Check your email address/password"
+    sys.exit()
 
 # Open a worksheet from your spreadsheet using the filename
 try:
-  worksheet = gc.open(spreadsheet).sheet1
-  # Alternatively, open a spreadsheet using the spreadsheet's key
-  # worksheet = gc.open_by_key('0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE')
+    worksheet = gc.open(spreadsheet).sheet1
+    # Alternatively, open a spreadsheet using the spreadsheet's key
+    # worksheet = gc.open_by_key('0BmgG6nO_6dprdS1MN3d3MkdPa142WFRrdnRRUWl1UFE')
 except:
-  print "Unable to open the spreadsheet.  Check your filename: %s" % spreadsheet
-  sys.exit()
+    print "Unable to open the spreadsheet.  Check your filename: %s" % spreadsheet
+    sys.exit()
 
 # Continuously append data
 while(True):
-  temp = bmp.readTemperature()
-  pressure = bmp.readPressure()
-  altitude = bmp.readAltitude()
+    temp = bmp.readTemperature()
+    pressure = bmp.readPressure()
+    altitude = bmp.readAltitude()
 
-  print "Temperature: %.2f C" % temp
-  print "Pressure:    %.2f hPa" % (pressure / 100.0)
-  print "Altitude:    %.2f" % altitude
+    print "Temperature: %.2f C" % temp
+    print "Pressure:    %.2f hPa" % (pressure / 100.0)
+    print "Altitude:    %.2f" % altitude
 
-  # Append the data in the spreadsheet, including a timestamp
-  try:
-    values = [datetime.datetime.now(), temp, pressure, altitude]
-    worksheet.append_row(values)
-  except:
-    print "Unable to append data.  Check your connection?"
-    sys.exit()
+    # Append the data in the spreadsheet, including a timestamp
+    try:
+        values = [datetime.datetime.now(), temp, pressure, altitude]
+        worksheet.append_row(values)
+    except:
+        print "Unable to append data.  Check your connection?"
+        sys.exit()
 
-  # Wait 5 seconds before continuing
-  print "Wrote a row to %s" % spreadsheet
-  time.sleep(5)
+    # Wait 5 seconds before continuing
+    print "Wrote a row to %s" % spreadsheet
+    time.sleep(5)
 

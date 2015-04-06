@@ -9,29 +9,29 @@ GPIO.setmode(GPIO.BCM)
 
 # this function is not used, its for future reference!
 def slowspiwrite(clockpin, datapin, byteout):
-	GPIO.setup(clockpin, GPIO.OUT)
-	GPIO.setup(datapin, GPIO.OUT)
-	for i in range(8):
-		if (byteout & 0x80):
-			GPIO.output(datapin, True)
-		else:
-			GPIO.output(datapin, False)
-		byteout <<= 1
-		GPIO.output(clockpin, True)
-		GPIO.output(clockpin, False)
+    GPIO.setup(clockpin, GPIO.OUT)
+    GPIO.setup(datapin, GPIO.OUT)
+    for i in range(8):
+        if (byteout & 0x80):
+            GPIO.output(datapin, True)
+        else:
+            GPIO.output(datapin, False)
+        byteout <<= 1
+        GPIO.output(clockpin, True)
+        GPIO.output(clockpin, False)
 
 # this function is not used, its for future reference!
 def slowspiread(clockpin, datapin):
-	GPIO.setup(clockpin, GPIO.OUT)
-	GPIO.setup(datapin, GPIO.IN)
-	byteout = 0
-	for i in range(8):
-		GPIO.output(clockpin, False)
-		GPIO.output(clockpin, True)
-		byteout <<= 1
-		if (GPIO.input(datapin)):
-			byteout = byteout | 0x1
-	return byteout
+    GPIO.setup(clockpin, GPIO.OUT)
+    GPIO.setup(datapin, GPIO.IN)
+    byteout = 0
+    for i in range(8):
+        GPIO.output(clockpin, False)
+        GPIO.output(clockpin, True)
+        byteout <<= 1
+        if (GPIO.input(datapin)):
+            byteout = byteout | 0x1
+    return byteout
 
 # read SPI data from MCP3002 chip, 2 possible adc's (0 thru 1)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
@@ -87,8 +87,8 @@ GPIO.setup(SPICS, GPIO.OUT)
 print "| #0 \t #1|"
 print "-----------------------------------------------------------------"
 while True:
-	print "|",
-	for adcnum in range(2):
-		ret = readadc(adcnum, SPICLK, SPIMOSI, SPIMISO, SPICS)
-		print ret,"\t",
-	print "|"
+    print "|",
+    for adcnum in range(2):
+        ret = readadc(adcnum, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        print ret,"\t",
+    print "|"

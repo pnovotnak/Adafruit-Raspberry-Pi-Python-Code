@@ -66,11 +66,17 @@ class AdafruitI2C(object):
 
     def __init__(self, address, bus_num=-1, debug=False):
         self.address = address
-        # By default, the correct I2C bus is auto-detected using /proc/cpuinfo
-        # Alternatively, you can hard-code the bus version below:
-        # self.bus = smbus.SMBus(0); # Force I2C0 (early 256MB Pi's)
-        # self.bus = smbus.SMBus(1); # Force I2C1 (512MB Pi's)
-        self.bus = smbus.SMBus(bus_num if bus_num >= 0 else AdafruitI2C.get_pi_i2c_bus_number())
+
+        if self.is_edison():
+            self.bus = mraa.I2c(bus_num)
+
+        else:
+            # By default, the correct I2C bus is auto-detected using /proc/cpuinfo
+            # Alternatively, you can hard-code the bus version below:
+            # self.bus = smbus.SMBus(0); # Force I2C0 (early 256MB Pi's)
+            # self.bus = smbus.SMBus(1); # Force I2C1 (512MB Pi's)
+            self.bus = smbus.SMBus(bus_num if bus_num >= 0 else AdafruitI2C.get_pi_i2c_bus_number())
+
         self.debug = debug
 
     def err_msg(self):
